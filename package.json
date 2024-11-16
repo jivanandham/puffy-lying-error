@@ -7,11 +7,19 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "fastify": "^4.21.0",
-    "handlebars": "^4.7.8",
     "@fastify/formbody": "^7.4.0",
     "@fastify/static": "^6.10.2",
-    "@fastify/view": "^8.0.0"
+    "@fastify/view": "^8.0.0",
+    "bcrypt": "^5.1.1",
+    "connect-mongo": "^5.1.0",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "express-openid-connect": "^2.17.1",
+    "express-session": "^1.18.1",
+    "fastify": "^4.21.0",
+    "handlebars": "^4.7.8",
+    "mongoose": "^8.8.1"
   },
   "engines": {
     "node": "14.x"
@@ -23,5 +31,6 @@
   "keywords": [
     "node",
     "glitch"
-  ]
+  ],
+  "author": ""
 }
