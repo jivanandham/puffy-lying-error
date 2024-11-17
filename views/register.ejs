@@ -9,7 +9,7 @@
 </head>
 <body>
   <!-- Navbar -->
-  <%- include('partials/header') %>
+  <%- include('partials/navbar') %>
 
   <!-- Registration Form -->
   <div class="container my-5">
@@ -23,11 +23,11 @@
             <div class="text-center mb-4">
               <p>Sign up with your favorite social media</p>
               <!-- Use Auth0 to trigger Google login -->
-              <a href="/auth/google" class="btn btn-outline-primary me-2">
+              <a href="/login" class="btn btn-outline-primary me-2">
                 <i class="bi bi-google"></i> Google
               </a>
               <!-- Facebook Button if configured in Auth0 (optional) -->
-              <a href="/auth/facebook" class="btn btn-outline-primary">
+              <a href="/login" class="btn btn-outline-primary">
                 <i class="bi bi-facebook"></i> Facebook
               </a>
             </div>

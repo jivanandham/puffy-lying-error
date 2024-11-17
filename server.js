@@ -39,14 +39,18 @@ const authConfig = {
   },
 };
 
-// Use helmet for setting CSP headers
+// Use Helmet for Content Security Policy (CSP)
 app.use(helmet.contentSecurityPolicy({
   directives: {
-    defaultSrc: ["'self'"],  // Only allow content from same origin
-    scriptSrc: ["'self'", "'unsafe-inline'", "https://apis.google.com", "https://cdn.jsdelivr.net"], // Allow inline scripts and Google scripts
-    styleSrc: ["'self'", "'unsafe-inline'"], // Allow inline styles
-    imgSrc: ["'self'", "data:", "https://www.google-analytics.com"],  // Allow images from self and data URIs
-    connectSrc: ["'self'", "https://www.google-analytics.com"], // Allow Google Analytics
+    defaultSrc: ["'self'"],  // Only allow content from the same origin
+    scriptSrc: ["'self'", "'unsafe-inline'", "https://apis.google.com", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com"], // Allow inline scripts and external sources like Google and CDNJS
+    styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"], // Allow inline styles and external styles from CDNJS
+    imgSrc: ["'self'", "data:", "https://www.google-analytics.com", "https://cdn.glitch.me", "https://cdn.glitch.com"],  // Allow images from self, data URIs, and Glitch
+    connectSrc: ["'self'", "https://www.google-analytics.com"], // Allow connections to Google Analytics
+    fontSrc: ["'self'", "https://cdnjs.cloudflare.com"], // Allow fonts from the same origin and CDNJS
+    objectSrc: ["'none'"],  // Block all plugins like Flash
+    frameSrc: ["'none'"],   // Block embedding in frames
+    upgradeInsecureRequests: [],  // Allow mixed content upgrade
   },
 }));
 
@@ -71,13 +75,28 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Home route (if authenticated, redirect to landing page; otherwise render home page)
+// Home route (landing page)
 app.get('/', (req, res) => {
-  const user = req.oidc.user || null; // Get the user from Auth0 or null if not authenticated
-  if (req.oidc.isAuthenticated()) {
-    return res.redirect('/landing');  // Redirect authenticated users to the landing page
-  }
-  res.render('index', { user }); // Render home page for non-authenticated users
+  // Check if the user is authenticated
+  const user = req.oidc.user || null;
+  res.render('landing', { user });  // Render landing page if authenticated or not
+});
+
+// Routes for the pages
+app.get('/about', (req, res) => {
+  res.render('about');  // Render the About page
+});
+
+app.get('/features', (req, res) => {
+  res.render('features');  // Render the Features page
+});
+
+app.get('/pricing', (req, res) => {
+  res.render('pricing');  // Render the Pricing page
+});
+
+app.get('/views/contact', (req, res) => {
+  res.render('contact');  // Render the contact.ejs file
 });
 
 // Login route (with custom scope)
@@ -140,19 +159,128 @@ app.post('/register', async (req, res) => {
   }
 });
 
-// Callback route (after Auth0 redirects after login)
 app.get('/callback', (req, res) => {
-  res.redirect('/landing'); // After successful login, redirect to landing page
-});
-
-// Landing page route (only accessible if the user is authenticated)
-app.get('/landing', (req, res) => {
+  // Check if the user has an admin role (you can also use the user’s role from Auth0 or your database)
   if (req.oidc.isAuthenticated()) {
-    res.render('landing', { user: req.oidc.user }); // Render landing page with user data
+    const user = req.oidc.user;
+
+    // Example: Check for the 'admin' role (you can adjust based on how your roles are stored)
+    if (user && user.roles && user.roles.includes('admin')) {
+      return res.redirect('/admin-dashboard');  // Redirect to admin dashboard if the user is an admin
+    } else {
+      return res.redirect('/user-dashboard');  // Redirect to user dashboard if the user is not an admin
+    }
   } else {
-    res.redirect('/login'); // Redirect to login if not authenticated
+    res.redirect('/login');  // Redirect to login if not authenticated
   }
 });
+
+
+app.get('/admin-dashboard', (req, res) => {
+  if (req.oidc.isAuthenticated() && req.oidc.user && req.oidc.user.roles && req.oidc.user.roles.includes('admin')) {
+    res.render('admin-dashboard', { user: req.oidc.user });
+  } else {
+    res.redirect('/login');  // Redirect to login if not authenticated or not an admin
+  }
+});
+
+app.get('/user-dashboard', (req, res) => {
+  if (req.oidc.isAuthenticated() && req.oidc.user && (!req.oidc.user.roles || !req.oidc.user.roles.includes('admin'))) {
+    res.render('user-dashboard', { user: req.oidc.user });
+  } else {
+    res.redirect('/login');  // Redirect to login if not authenticated or not a user
+  }
+});
+
+
+// Route to display all users (only accessible by admins)
+app.get('/users', async (req, res) => {
+  // Ensure the user is authenticated and has the admin role
+  if (req.oidc.isAuthenticated() && req.oidc.user && req.oidc.user.roles && req.oidc.user.roles.includes('admin')) {
+    try {
+      // Fetch all users from the database (you can customize this query as needed)
+      const users = await User.find();
+
+      // Render the users page with the list of users
+      res.render('users', { users });
+    } catch (err) {
+      console.error('Error fetching users:', err);
+      res.status(500).send('Error fetching users');
+    }
+  } else {
+    // Redirect to login if not authenticated or not an admin
+    res.redirect('/login');
+  }
+});
+
+
+// Route to edit user details (admin only)
+app.get('/edit-user/:id', async (req, res) => {
+  if (req.oidc.isAuthenticated() && req.oidc.user && req.oidc.user.roles.includes('admin')) {
+    try {
+      const user = await User.findById(req.params.id);
+      if (!user) {
+        return res.status(404).send('User not found');
+      }
+      res.render('edit-user', { user });
+    } catch (err) {
+      console.error('Error fetching user:', err);
+      res.status(500).send('Error fetching user');
+    }
+  } else {
+    res.redirect('/login');
+  }
+});
+
+
+// Route to delete a user (admin only)
+app.get('/delete-user/:id', async (req, res) => {
+  if (req.oidc.isAuthenticated() && req.oidc.user && req.oidc.user.roles.includes('admin')) {
+    try {
+      await User.findByIdAndDelete(req.params.id);
+      res.redirect('/users'); // Redirect to the users page after deletion
+    } catch (err) {
+      console.error('Error deleting user:', err);
+      res.status(500).send('Error deleting user');
+    }
+  } else {
+    res.redirect('/login');
+  }
+});
+
+// Route to change the user's role to 'admin' (only accessible by admins)
+app.get('/change-role/:id', async (req, res) => {
+  if (req.oidc.isAuthenticated() && req.oidc.user && req.oidc.user.roles.includes('admin')) {
+    try {
+      const userId = req.params.id;
+
+      // Find the user by their ID
+      const user = await User.findById(userId);
+
+      // If the user doesn't exist, return a 404 error
+      if (!user) {
+        return res.status(404).send('User not found');
+      }
+
+      // Add the 'admin' role to the user (if not already assigned)
+      if (!user.roles.includes('admin')) {
+        user.roles.push('admin'); // Add 'admin' role to the user's roles array
+        await user.save();
+        res.send('User role updated to admin');
+      } else {
+        res.send('User is already an admin');
+      }
+
+    } catch (err) {
+      console.error('Error changing user role:', err);
+      res.status(500).send('Error changing user role');
+    }
+  } else {
+    res.redirect('/login'); // Redirect to login if not authenticated or not an admin
+  }
+});
+
+
 
 // Error route (optional, for showing error pages)
 app.get('/error', (req, res) => {

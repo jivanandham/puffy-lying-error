@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Users</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+  <!-- Include Navbar -->
+  <%- include('partials/navbar') %>
+
+  <!-- Users List Section -->
+  <div class="container my-5">
+    <h1>All Users</h1>
+    <p>Here is a list of all registered users:</p>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Username</th>
+          <th scope="col">Email</th>
+          <th scope="col">Role</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% users.forEach(user => { %>
+          <tr>
+            <td><%= user.username %></td>
+            <td><%= user.email %></td>
+            <td><%= user.roles.join(', ') %></td>
+            <td>
+              <!-- Button to change the role to 'admin' -->
+              <% if (!user.roles.includes('admin')) { %>
+                <a href="/change-role/<%= user._id %>" class="btn btn-success btn-sm">Make Admin</a>
+              <% } else { %>
+                <span class="text-success">Admin</span>
+              <% } %>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Footer -->
+  <%- include('partials/footer') %>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

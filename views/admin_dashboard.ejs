@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <%- include('partials/navbar') %>
+
+  <!-- Dashboard Content -->
+  <div class="container my-5">
+    <h1>Admin Dashboard</h1>
+    <p>Welcome, <%= user.name %>! You have administrative access.</p>
+
+    <div class="mt-5">
+      <h2>User Management</h2>
+      <p>Here you can manage users, view data, and perform administrative tasks.</p>
+      
+      <!-- Example of managing users -->
+      <h3>Manage Users</h3>
+      <ul>
+        <li><a href="/view-users">View All Users</a></li>
+        <li><a href="/add-user">Add New User</a></li>
+      </ul>
+
+      <!-- Add more admin functionalities here -->
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <%- include('partials/footer') %>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

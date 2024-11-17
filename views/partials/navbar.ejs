@@ -1,5 +1,7 @@
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
+    <!-- Logo and Site Name -->
     <a class="navbar-brand" href="/">
       <img src="https://cdn.glitch.me/8744b9b1-55f9-4d29-8fca-c4b1415d9c43/stockbull.png?v=1731384958477" width="50" height="50" alt="Logo">
       Stock Bull
@@ -16,13 +18,32 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="/features">Features</a></li>
-        <li class="nav-item"><a class="nav-link" href="/pricing">Pricing</a></li>
-        <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
-        <li class="nav-item">
-          <a class="btn btn-outline-primary ms-3" href="/login">Login</a>
-        </li>
+        <a class="nav-link" href="/about">About</a>
+        <a class="nav-link" href="/pricing">Pricing</a>
+        <a class="nav-link" href="/features">Features</a>
+        <a class="nav-link" href="/contact">Contact</a>
+        
+        <!-- Conditionally display Dashboard link if user is authenticated -->
+        <% if (user) { %>
+          <% if (user.roles && user.roles.includes('admin')) { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin-dashboard">Dashboard</a>
+            </li>
+          <% } else { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/user-dashboard">Dashboard</a>
+            </li>
+          <% } %>
+          <!-- Logout button for authenticated users -->
+          <li class="nav-item">
+            <a class="btn btn-outline-danger ms-3" href="/logout">Logout</a>
+          </li>
+        <% } else { %>
+          <!-- Login button for unauthenticated users -->
+          <li class="nav-item">
+            <a class="btn btn-outline-primary ms-3" href="/login">Login</a>
+          </li>
+        <% } %>
       </ul>
     </div>
   </div>

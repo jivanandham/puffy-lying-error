@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <%- include('partials/navbar') %>
+
+  <!-- Dashboard Content -->
+  <div class="container my-5">
+    <h1>Welcome, <%= user.name %>!</h1>
+    <p>You are logged in as a user. Here are your account details:</p>
+    
+    <ul>
+      <li><strong>Email:</strong> <%= user.email %></li>
+      <li><strong>Username:</strong> <%= user.username %></li>
+    </ul>
+
+    <div class="mt-5">
+      <h2>Your Activities</h2>
+      <p>Here you can see your activity and other user-specific details.</p>
+      <!-- You can add user-specific content here -->
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <%- include('partials/footer') %>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
