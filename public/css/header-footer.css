@@ -1,0 +1,117 @@
+/* Header (Navbar) Styling */
+.navbar {
+    background-color: #ffffff; /* White background for the navbar */
+    padding: 1rem 2rem; /* Add some padding for spacing */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for the navbar */
+  }
+  
+  .navbar .navbar-brand {
+    font-weight: bold; /* Make the brand name bold */
+  }
+  
+  .navbar .navbar-nav .nav-item .nav-link {
+    font-size: 1.1rem;
+    color: #333; /* Dark text color */
+    padding: 10px 15px;
+    transition: color 0.3s; /* Smooth color transition */
+  }
+  
+  .navbar .navbar-nav .nav-item .nav-link:hover {
+    color: #007bff; /* Highlight text on hover */
+    text-decoration: none; /* Remove underline on hover */
+  }
+  
+  .navbar .navbar-toggler-icon {
+    background-color: #007bff; /* Change hamburger icon color */
+  }
+  
+  /* Add some styling for buttons in the navbar */
+  .navbar .btn-outline-primary {
+    border-color: #007bff;
+    color: #007bff;
+    font-weight: bold;
+    padding: 8px 20px;
+    border-radius: 25px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .navbar .btn-outline-primary:hover {
+    background-color: #007bff;
+    color: #ffffff;
+  }
+  
+  /* Footer Styling */
+  footer {
+    background-color: #f8f9fa; /* Light background for the footer */
+    padding: 2rem 0;
+    border-top: 1px solid #e1e1e1; /* Subtle border on top */
+  }
+  
+  footer .container {
+    text-align: center;
+  }
+  
+  footer p {
+    margin: 0;
+    color: #333;
+  }
+  
+  footer ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  footer ul li {
+    display: inline;
+    margin: 0 15px;
+  }
+  
+  footer ul li a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+  }
+  
+  footer ul li a:hover {
+    color: #0056b3; /* Darker blue on hover */
+  }
+  
+  /* Responsive Design for Navbar */
+  @media (max-width: 767px) {
+    .navbar {
+      padding: 0.5rem 1rem; /* Adjust padding for smaller screens */
+    }
+  
+    .navbar .navbar-nav {
+      text-align: center;
+    }
+  
+    .navbar .navbar-nav .nav-item {
+      margin-bottom: 1rem;
+    }
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+  }
+  
+  h1, h2, h3 {
+    color: #333;
+  }
+  
+  .navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .hero-section {
+    background-color: #f8f9fa;
+    padding: 3rem 0;
+    border-radius: 8px;
+  }
+  
+  footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #ddd;
+  }

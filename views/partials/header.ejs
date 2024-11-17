@@ -1,0 +1,23 @@
+<link rel="stylesheet" href="/css/header-footer.css"> <!-- Link the Header/Footer CSS -->
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="/">Stock Bull</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <!-- If the user is authenticated, show Logout -->
+        <% if (user) { %>  <!-- Check if user is defined -->
+          <li class="nav-item">
+            <a class="btn btn-outline-primary ms-3" href="/logout">Logout</a>
+          </li>
+        <% } else { %>
+          <!-- If the user is not authenticated, show Login -->
+          <li class="nav-item">
+            <a class="btn btn-outline-primary ms-3" href="/login">Login</a>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>
