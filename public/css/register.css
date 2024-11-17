@@ -1,0 +1,109 @@
+/* Center card on the page */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .card {
+    border-radius: 10px;
+    background: #ffffff;
+  }
+  
+  .card-body {
+    padding: 2rem;
+  }
+  
+  h1 {
+    font-weight: bold;
+  }
+  
+  .btn-outline-primary {
+    border-width: 2px;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
+  input.form-control {
+    height: 50px;
+    border-radius: 8px;
+  }
+  
+  input.form-control:focus {
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  hr {
+    border-top: 1px solid #ddd;
+  }
+
+  /* Navbar styling */
+.navbar {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+  
+  .nav-link {
+    color: #007bff;
+  }
+  
+  .nav-link:hover {
+    color: #0056b3;
+  }
+  
+  .navbar-toggler {
+    border: none;
+  }
+  
+  .navbar-toggler:focus {
+    box-shadow: none;
+  }
+
+  /* Navbar Styling */
+.navbar {
+    background-color: #ffffff; /* Light background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  }
+  
+  .navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+  
+  .nav-link {
+    color: #007bff; /* Primary link color */
+  }
+  
+  .nav-link:hover {
+    color: #0056b3; /* Hover effect */
+  }
+  
+  .navbar-toggler {
+    border: none; /* Remove default border */
+  }
+  
+  .navbar-toggler:focus {
+    box-shadow: none; /* Remove focus outline */
+  }
+  
+  .btn-outline-primary {
+    border-width: 2px;
+    color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .btn-outline-primary:hover {
+    background-color: #007bff;
+    color: #ffffff;
+  }
