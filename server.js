@@ -84,20 +84,21 @@ app.get('/', (req, res) => {
 
 // Routes for the pages
 app.get('/about', (req, res) => {
-  res.render('about');  // Render the About page
+  res.render('about', { user: req.oidc.user || null });  // Render the About page
 });
 
 app.get('/features', (req, res) => {
-  res.render('features');  // Render the Features page
+  res.render('features', { user: req.oidc.user || null }); // Pass `user`
 });
 
 app.get('/pricing', (req, res) => {
-  res.render('pricing');  // Render the Pricing page
+  res.render('pricing', { user: req.oidc.user || null });  // Render the Pricing page
 });
 
-app.get('/views/contact', (req, res) => {
-  res.render('contact');  // Render the contact.ejs file
+app.get('/contact', (req, res) => {
+  res.render('contact', { user: req.oidc.user || null });  // Render the Contact page
 });
+
 
 // Login route (with custom scope)
 app.get('/login', (req, res) => {
