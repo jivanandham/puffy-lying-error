@@ -8,11 +8,19 @@ const User = require('./models/User');  // Import User model
 const bcrypt = require('bcryptjs');  // For hashing passwords
 const helmet = require('helmet');  // For security headers
 
+const stockRoutes = require("./routes/stockRoutes");
+const tradeRoutes = require('./routes/tradeRoutes');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+
 // Load environment variables from .env file
 dotenv.config();
+
+app.use("/api/stocks", stockRoutes);
+app.use('/api', tradeRoutes); 
+
 
 // Connect to MongoDB using Mongoose
 mongoose.connect(process.env.MONGO_URI, {
@@ -211,6 +219,53 @@ app.get('/users', async (req, res) => {
   } else {
     // Redirect to login if not authenticated or not an admin
     res.redirect('/login');
+  }
+});
+
+
+// Route for updating the profile
+app.post('/user/profile/edit', async (req, res) => {
+  const { username, email, password } = req.body;
+
+  if (!username || !email) {
+    return res.status(400).send('Username and email are required');
+  }
+
+  try {
+    const user = await User.findById(req.user._id);
+
+    // Update fields
+    user.username = username;
+    user.email = email;
+
+    // Update password if provided
+    if (password) {
+      user.password = await bcrypt.hash(password, 10);
+    }
+
+    await user.save();
+    res.redirect('/user-dashboard');
+  } catch (err) {
+    res.status(500).send('Error updating profile');
+  }
+});
+
+// Route for funding trading account
+app.post('/user/fund', async (req, res) => {
+  const { amount } = req.body;
+
+  if (!amount || amount <= 0) {
+    return res.status(400).send('Invalid fund amount');
+  }
+
+  try {
+    const user = await User.findById(req.user._id);
+    user.tradingBalance += amount;
+
+    await user.save();
+    res.redirect('/user-dashboard');
+  } catch (err) {
+    res.status(500).send('Error funding trading account');
   }
 });
 

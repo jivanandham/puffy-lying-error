@@ -5,6 +5,8 @@
       <img src="https://cdn.glitch.me/8744b9b1-55f9-4d29-8fca-c4b1415d9c43/stockbull.png?v=1731384958477" width="50" height="50" alt="Logo">
       Stock Bull
     </a>
+    <!-- Add Bootstrap Icons CDN link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <button
       class="navbar-toggler"
       type="button"
@@ -15,8 +17,21 @@
       aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
+    
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
+        <!-- Search Bar -->
+        <li class="nav-item">
+          <form class="d-flex" action="/search" method="GET">
+            <div class="input-group">
+              <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="query">
+              <button class="btn btn-outline-success" type="submit">
+                <i class="bi bi-search"></i> <!-- Bootstrap search icon -->
+              </button>
+            </div>
+          </form>
+        </li>
         <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
         <li class="nav-item"><a class="nav-link" href="/pricing">Pricing</a></li>
         <li class="nav-item"><a class="nav-link" href="/features">Features</a></li>

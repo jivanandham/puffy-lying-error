@@ -5,10 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <!-- Navbar -->
   <%- include('partials/navbar') %>
+
+  <%- include('partials/user-navbar') %>
 
   <!-- Dashboard Content -->
   <div class="container my-5">
@@ -20,16 +23,64 @@
       <li><strong>Username:</strong> <%= user.username %></li>
     </ul>
 
-    <div class="mt-5">
-      <h2>Your Activities</h2>
-      <p>Here you can see your activity and other user-specific details.</p>
-      <!-- You can add user-specific content here -->
+    <!-- Stock Data Section -->
+    <div class="mt-5" id="stocks">
+      <h2>Live Stock Market Data</h2>
+      <p>Here you can see live stock market data:</p>
+      <canvas id="stockChart" width="400" height="200"></canvas>
     </div>
+
+    <!-- ETFs Section -->
+    <div class="mt-5" id="etf">
+      <h2>Live ETF Data</h2>
+      <p>Here you can see live ETF market data:</p>
+    </div>
+
+    <!-- Other sections for Mutual Funds, Gold, etc. -->
+    <!-- Similar to Stock section -->
   </div>
 
   <!-- Footer -->
   <%- include('partials/footer') %>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Fetch stock data from your server (e.g., for the stock symbol "AAPL")
+    async function fetchStockData(symbol) {
+      const response = await fetch(`/api/stocks/stockdata/${symbol}`);
+      const data = await response.json();
+
+      const labels = data.map(item => new Date(item.time).toLocaleTimeString());
+      const prices = data.map(item => item.close);
+
+      const ctx = document.getElementById('stockChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: `Stock Price for ${symbol}`,
+            data: prices,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1,
+            fill: false
+          }]
+        },
+        options: {
+          scales: {
+            x: {
+              title: { display: true, text: 'Time' }
+            },
+            y: {
+              title: { display: true, text: 'Price' }
+            }
+          }
+        }
+      });
+    }
+
+    fetchStockData('AAPL');
+  </script>
 </body>
 </html>

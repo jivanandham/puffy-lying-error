@@ -21,3 +21,25 @@ body {
     background-color: #f8f9fa;
     border-top: 1px solid #ddd;
   }
+
+  /* Custom Styling for Search Bar */
+.navbar .form-control {
+  width: 200px;  /* Set a fixed width for the search input */
+}
+
+.navbar .btn-outline-success {
+  border-radius: 20px;  /* Rounded corners for the search button */
+}
+
+/* Custom styling for search bar */
+.input-group {
+  width: 300px;  /* Adjust the width of the search bar */
+}
+
+.input-group .form-control {
+  border-radius: 20px 0 0 20px; /* Rounded left corners for the input */
+}
+
+.input-group .btn {
+  border-radius: 0 20px 20px 0; /* Rounded right corners for the button */
+}
